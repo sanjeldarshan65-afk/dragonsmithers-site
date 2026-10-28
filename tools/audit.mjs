@@ -8,7 +8,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 
 const base = process.argv[2] || 'http://localhost:8080';
 const out = process.argv[3] || 'audit-out';
-const paths = process.argv.slice(4).length ? process.argv.slice(4) : ['/', '/portfolio/'];
+const paths = process.argv.slice(4).length ? process.argv.slice(4) : ['/', '/blog/'];
 const chromePath = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 mkdirSync(out, { recursive: true });
 const report = { lighthouse: {}, axe: {}, layout: {} };

@@ -12,17 +12,15 @@ const tmp = mkdtempSync(join(tmpdir(), 'og-'));
 mkdirSync(join(root, 'og'), { recursive: true });
 
 const cards = [
-  { file: 'home', kicker: 'Phone, computer & network repair · Butler County, OH', title: ['Your tech, fixed by', 'someone down the street.'], foot: 'Hamilton · Fairfield · West Chester · Liberty Twp · Oxford · Trenton' },
-  { file: 'business', kicker: 'Small-business IT plan', title: ['IT for small offices that', "don't have an IT person."], foot: 'Google Workspace · Email deliverability · Backups · 2-step login' },
-  { file: 'privacy', kicker: 'DragonSmiths', title: ['Privacy:', 'no ads, no tracking cookies.'], foot: 'dragonsmithers.com/privacy' },
-  { file: 'portfolio', kicker: 'Cybersecurity · IT support · Systems & networking', title: ['Darshan Sanjel'], foot: 'Wazuh SIEM · Proxmox VE lab · Help desk · Fairfield, OH', brand: 'Portfolio' },
-  { file: 'wazuh-siem', kicker: 'Case study · Wazuh 4.14 · Ubuntu 24.04', title: ['A self-hosted SIEM that', 'drafts its own write-ups.'], foot: 'Darshan Sanjel · dragonsmithers.com/portfolio', brand: 'Portfolio' },
-  { file: 'proxmox-lab', kicker: 'Case study · Proxmox VE 9 · LXC · Tailscale', title: ['A repurposed laptop', 'running my whole lab.'], foot: 'Darshan Sanjel · dragonsmithers.com/portfolio', brand: 'Portfolio' },
-  { file: 'trail-window', kicker: 'Case study · JavaScript · Cloudflare Workers', title: ['A weather planner with a', 'locked-down AI briefing.'], foot: 'Darshan Sanjel · dragonsmithers.com/portfolio', brand: 'Portfolio' },
+  { file: 'home', kicker: 'Cybersecurity · IT support · Systems & networking', title: ['Darshan Sanjel'], foot: 'Wazuh SIEM · Proxmox VE lab · Help desk · Fairfield, OH' },
+  { file: 'blog', kicker: 'Blog', title: ['Notes from the lab.'], foot: 'Darshan Sanjel · dragonsmithers.com/blog', brand: 'Blog' },
+  { file: 'wazuh-siem', kicker: 'Blog · Wazuh 4.14 · Ubuntu 24.04', title: ['A self-hosted SIEM that', 'drafts its own write-ups.'], foot: 'Darshan Sanjel · dragonsmithers.com/blog', brand: 'Blog' },
+  { file: 'proxmox-lab', kicker: 'Blog · Proxmox VE 9 · LXC · Tailscale', title: ['A repurposed laptop', 'running my whole lab.'], foot: 'Darshan Sanjel · dragonsmithers.com/blog', brand: 'Blog' },
+  { file: 'trail-window', kicker: 'Blog · JavaScript · Cloudflare Workers', title: ['A weather planner with a', 'locked-down AI briefing.'], foot: 'Darshan Sanjel · dragonsmithers.com/blog', brand: 'Blog' },
 ];
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-const card = ({ kicker, title, foot, brand = 'DragonSmiths' }) => {
+const card = ({ kicker, title, foot, brand = 'dragonsmithers.com' }) => {
   const big = title.length === 1;
   const size = big ? 100 : 62;
   const lines = title.map((t, i) => `<text x="80" y="${big ? 350 : 300 + i * (size + 10)}" class="h" font-size="${size}">${esc(t)}</text>`).join('');
@@ -37,23 +35,17 @@ html, body { margin: 0; } svg { display: block; }
 </style></head><body>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
-    <pattern id="sc" width="30" height="16" patternUnits="userSpaceOnUse"><path d="M0 0 A15 15 0 0 0 30 0" fill="none" stroke="#E5392C" stroke-opacity=".12" stroke-width="1.5"/><path d="M-15 8 A15 15 0 0 0 15 8 M15 8 A15 15 0 0 0 45 8" fill="none" stroke="#E5392C" stroke-opacity=".12" stroke-width="1.5"/></pattern>
+    <pattern id="sc" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.5" fill="#E5392C" fill-opacity=".14"/></pattern>
     <radialGradient id="glow" cx="85%" cy="45%" r="60%"><stop offset="0" stop-color="#B3201A" stop-opacity=".55"/><stop offset="1" stop-color="#B3201A" stop-opacity="0"/></radialGradient>
-    <radialGradient id="iris" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFD08A"/><stop offset=".35" stop-color="#FF7A3D"/><stop offset=".75" stop-color="#C8241B"/><stop offset="1" stop-color="#3A0A08"/></radialGradient>
   </defs>
   <rect width="1200" height="630" fill="#0A0607"/><rect width="1200" height="630" fill="url(#sc)"/><rect width="1200" height="630" fill="url(#glow)"/>
-  <g transform="translate(1040 128) scale(.56)" opacity=".95">
-    <circle r="250" fill="none" stroke="#E5392C" stroke-opacity=".35" stroke-width="2" stroke-dasharray="2 10"/>
-    <path d="M-190 0 C-110 -110 110 -110 190 0 C110 110 -110 110 -190 0Z" fill="#140C0D" stroke="#E5392C" stroke-width="3"/>
-    <circle r="88" fill="url(#iris)"/><ellipse rx="12" ry="80" fill="#0A0607"/>
-  </g>
   <g transform="translate(80 70)">
-    <g transform="scale(.84375)"><rect width="64" height="64" rx="12" fill="#0A0607"/><rect x="1" y="1" width="62" height="62" rx="11" fill="none" stroke="#3A2224" stroke-width="2"/><path d="M14 18h12a14 14 0 0 1 0 28H14z" fill="none" stroke="#E5392C" stroke-width="4.5" stroke-linejoin="round"/><path d="M33 19l7-10M41 25l10-7" fill="none" stroke="#FF7A3D" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="25" cy="32" rx="2.4" ry="6.5" fill="#FF7A3D"/></g>
+    <g transform="scale(.84375)"><rect width="64" height="64" rx="12" fill="#0A0607"/><rect x="1" y="1" width="62" height="62" rx="11" fill="none" stroke="#3A2224" stroke-width="2"/><path d="M13 18h11a14 14 0 0 1 0 28H13z" fill="none" stroke="#E5392C" stroke-width="4.5" stroke-linejoin="round"/><rect x="43" y="36" width="8" height="10" rx="1" fill="#FF7A3D"/></g>
     <text x="74" y="39" class="b">${esc(brand)}</text>
   </g>
   <text x="80" y="${big ? 240 : 220}" class="m">${esc(kicker)}</text>
   ${lines}
-  <g stroke="#E5392C" stroke-width="4" stroke-linecap="round"><path d="M80 512 l26 -22 M104 512 l26 -22 M128 512 l26 -22"/></g>
+  <rect x="80" y="498" width="72" height="5" rx="2.5" fill="#E5392C"/>
   <text x="80" y="574" class="m" font-size="22" style="text-transform:none;letter-spacing:.5px">${esc(foot)}</text>
 </svg></body></html>`;
 };

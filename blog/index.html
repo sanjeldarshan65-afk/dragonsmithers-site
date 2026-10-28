@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Blog | Darshan Sanjel</title>
+  <meta name="description" content="Darshan Sanjel's blog: write-ups of a self-hosted Wazuh SIEM, a Proxmox home lab and a weather-planning web app, with architecture diagrams and what broke.">
+  <link rel="canonical" href="https://dragonsmithers.com/blog/">
+  <meta name="theme-color" content="#0a0607">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="preload" href="/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/site.js" defer></script>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Darshan Sanjel">
+  <meta property="og:title" content="Blog | Darshan Sanjel">
+  <meta property="og:description" content="Darshan Sanjel's blog: write-ups of a self-hosted Wazuh SIEM, a Proxmox home lab and a weather-planning web app, with architecture diagrams and what broke.">
+  <meta property="og:url" content="https://dragonsmithers.com/blog/">
+  <meta property="og:image" content="https://dragonsmithers.com/og/blog.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Darshan Sanjel's blog">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog | Darshan Sanjel">
+  <meta name="twitter:description" content="Darshan Sanjel's blog: write-ups of a self-hosted Wazuh SIEM, a Proxmox home lab and a weather-planning web app, with architecture diagrams and what broke.">
+  <meta name="twitter:image" content="https://dragonsmithers.com/og/blog.png">
+  <meta name="twitter:image:alt" content="Darshan Sanjel's blog">
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="/"><img src="/favicon.svg" alt="" width="30" height="30">Darshan Sanjel</a>
+    <div class="nav">
+      <nav class="menu" aria-label="Main">
+        <a href="/#projects">Projects</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#resume" class="opt2">Résumé</a>
+        <a href="/#contact" class="opt">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-head" aria-labelledby="page-title">
+    <div class="wrap">
+      <ol class="crumbs"><li><a href="/">Home</a></li><li aria-current="page">Blog</li></ol>
+      <span class="label">Blog</span>
+      <h1 id="page-title">Notes from the lab.</h1>
+      <p class="lede">Write-ups of systems I've built and run: what I set up, how the pieces fit together, what broke, and what I'd do next.</p>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="posts-title">
+    <div class="wrap">
+      <h2 id="posts-title" class="vh">Posts</h2>
+      <div class="posts">
+        <article class="post-card">
+          <span class="label">Wazuh SIEM lab · Ongoing</span>
+          <h3><a href="/blog/wazuh-siem/">A self-hosted SIEM that drafts its own incident write-ups.</a></h3>
+          <p>Wazuh collecting logs from my home lab, with a Node.js proxy that hands alerts to locally hosted language models and a React dashboard on top.</p>
+          <span class="stack">Wazuh 4.14 · Ubuntu 24.04 · Node.js · Express · React · TypeScript</span>
+        </article>
+        <article class="post-card">
+          <span class="label">Proxmox home lab · Ongoing</span>
+          <h3><a href="/blog/proxmox-lab/">A repurposed laptop running my whole lab.</a></h3>
+          <p>Proxmox VE 9 hosting VMs, containers, network-wide DNS filtering and a GPU-accelerated local LLM, reachable from anywhere without opening a single port.</p>
+          <span class="stack">Proxmox VE 9 · VMs · LXC · Docker · Tailscale · TOTP</span>
+        </article>
+        <article class="post-card">
+          <span class="label">Trail Window · Live</span>
+          <h3><a href="/blog/trail-window/">A weather planner that shows its math, with a locked-down AI briefing.</a></h3>
+          <p>Trail Window ranks every daylight window in the next five days for a hike, ride or run. The AI trail briefing sits behind a Cloudflare Worker built like an API you would actually put on the internet.</p>
+          <span class="stack">JavaScript · Leaflet · Open-Meteo · Cloudflare Workers</span>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div>
+      <span class="label">Darshan Sanjel</span>
+      <p>Cybersecurity student in Fairfield, Ohio. Open to IT support, help desk, data center and security roles.</p>
+      <p><a href="mailto:darshan@dragonsmithers.com">darshan@dragonsmithers.com</a></p>
+    </div>
+    <div>
+      <span class="label">Site</span>
+      <ul>
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/#resume">Résumé</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="label">Elsewhere</span>
+      <ul>
+        <li><a href="https://github.com/sanjeldarshan65-afk" rel="noopener">GitHub</a></li>
+        <li><a href="/resume.pdf" download="Darshan-Sanjel-Resume.pdf">Résumé PDF</a></li>
+      </ul>
+    </div>
+    <div class="legal">
+      <span>© <span data-year>2026</span> Darshan Sanjel</span>
+      <span>dragonsmithers.com</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

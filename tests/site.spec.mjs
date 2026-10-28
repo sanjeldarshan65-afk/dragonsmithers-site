@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const PAGES = ['/', '/business/', '/privacy/', '/portfolio/', '/portfolio/wazuh-siem/', '/portfolio/proxmox-lab/', '/portfolio/trail-window/'];
+const PAGES = ['/', '/blog/', '/blog/wazuh-siem/', '/blog/proxmox-lab/', '/blog/trail-window/'];
 const WIDTHS = [390, 768, 1280];
 const SCHEMES = ['light', 'dark'];
 // Links to files Darshan still has to add. Remove an entry once the file exists.
@@ -82,85 +82,7 @@ test('every internal link and in-page anchor resolves', async ({ page, request }
 test('unknown URLs get the custom 404 page', async ({ request }) => {
   const res = await request.get('/this-page-does-not-exist');
   expect(res.status()).toBe(404);
-  expect(await res.text()).toContain('Ticket not found');
-});
-
-test.describe('quote form', () => {
-  test.beforeEach(async ({ page }) => { await watch(page); await page.goto('/'); });
-
-  test('shows inline errors and focuses the first bad field', async ({ page }) => {
-    await page.getByRole('button', { name: 'Send my request' }).click();
-    await expect(page.locator('#q-name')).toHaveAttribute('aria-invalid', 'true');
-    await expect(page.locator('#q-email')).toHaveAttribute('aria-invalid', 'true');
-    await expect(page.locator('#q-issue')).toHaveAttribute('aria-invalid', 'true');
-    await expect(page.locator('#q-name-err')).toBeVisible();
-    await expect(page.locator('#formStatus')).toContainText('Check 3 fields');
-    await expect(page.locator('#q-name')).toBeFocused();
-
-    await page.fill('#q-name', 'Test Person');
-    await page.fill('#q-email', 'not-an-email');
-    await page.fill('#q-issue', 'Laptop will not boot past the logo.');
-    await page.getByRole('button', { name: 'Send my request' }).click();
-    await expect(page.locator('#q-name')).toHaveAttribute('aria-invalid', 'false');
-    await expect(page.locator('#q-email')).toHaveAttribute('aria-invalid', 'true');
-    await expect(page.locator('#q-email')).toBeFocused();
-  });
-
-  test('falls back to a prefilled email while no form key is set', async ({ page }) => {
-    await page.fill('#q-name', 'Test Person');
-    await page.fill('#q-email', 'test@example.com');
-    await page.fill('#q-issue', 'Laptop will not boot past the logo.');
-    await page.getByRole('button', { name: 'Send my request' }).click();
-    await expect(page.locator('#formSent')).toBeVisible();
-    await expect(page.locator('#sentMsg')).toContainText('email app');
-  });
-
-  test('posts to Web3Forms when configured and shows success', async ({ page }) => {
-    let body;
-    await page.route('https://api.web3forms.com/submit', async (r) => { body = r.request().postDataJSON(); await r.fulfill({ json: { success: true } }); });
-    await page.evaluate(() => { document.querySelector('[name=access_key]').value = 'test-key'; });
-    await page.fill('#q-name', 'Test Person');
-    await page.fill('#q-email', 'test@example.com');
-    await page.selectOption('#q-device', 'Mac');
-    await page.fill('#q-issue', 'Laptop will not boot past the logo.');
-    await page.getByRole('button', { name: 'Send my request' }).click();
-    await expect(page.locator('#formSent')).toBeVisible();
-    await expect(page.locator('#formSent')).toBeFocused();
-    expect(body).toMatchObject({ access_key: 'test-key', name: 'Test Person', email: 'test@example.com', device: 'Mac' });
-    expect(body.subject).toContain('Mac');
-    expect(body.redirect).toBeUndefined();
-  });
-
-  test('shows an error with an email fallback when sending fails', async ({ page }) => {
-    await page.route('https://api.web3forms.com/submit', (r) => r.fulfill({ status: 500, json: { success: false, message: 'nope' } }));
-    await page.evaluate(() => { document.querySelector('[name=access_key]').value = 'test-key'; });
-    await page.fill('#q-name', 'Test Person');
-    await page.fill('#q-email', 'test@example.com');
-    await page.fill('#q-issue', 'Laptop will not boot past the logo.');
-    await page.getByRole('button', { name: 'Send my request' }).click();
-    await expect(page.locator('#formStatus')).toContainText("didn't send");
-    await expect(page.locator('#formStatus a[href^="mailto:"]')).toBeVisible();
-    await expect(page.locator('#quoteForm')).toBeVisible();
-  });
-
-  test('silently drops honeypot submissions', async ({ page }) => {
-    let posted = false;
-    await page.route('https://api.web3forms.com/submit', (r) => { posted = true; r.fulfill({ json: { success: true } }); });
-    await page.evaluate(() => { document.querySelector('[name=access_key]').value = 'test-key'; document.querySelector('[name=botcheck]').checked = true; });
-    await page.fill('#q-name', 'Bot');
-    await page.fill('#q-email', 'bot@example.com');
-    await page.fill('#q-issue', 'Buy cheap followers now!!!');
-    await page.getByRole('button', { name: 'Send my request' }).click();
-    await page.waitForTimeout(300);
-    expect(posted).toBe(false);
-  });
-
-  test('device picker preselects the device', async ({ page }) => {
-    await page.getByRole('link', { name: 'Custom PC build' }).click();
-    await expect(page.locator('#q-device')).toHaveValue('Custom PC build');
-    await page.goto('/?device=Business%20IT#quote');
-    await expect(page.locator('#q-device')).toHaveValue('Business IT');
-  });
+  expect(await res.text()).toContain('Page not found');
 });
 
 test('site is dark-only: no theme toggle, dark in a light-preferring browser, stale choice cleared', async ({ browser }) => {
@@ -177,33 +99,13 @@ test('site is dark-only: no theme toggle, dark in a light-preferring browser, st
   await ctx.close();
 });
 
-test('hero loops pause when the hero scrolls off screen', async ({ page }) => {
-  await watch(page);
-  await page.goto('/');
-  await expect(page.locator('.hero')).not.toHaveClass(/is-idle/);
-  await page.locator('#faq').scrollIntoViewIfNeeded();
-  await expect(page.locator('.hero')).toHaveClass(/is-idle/);
-});
-
 test('copy button copies the email address', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await watch(page);
   await page.goto('/');
-  await page.locator('#quote [data-copy]').click();
-  await expect(page.locator('#quote [data-copy]')).toContainText('Copied');
+  await page.locator('#contact [data-copy]').click();
+  await expect(page.locator('#contact [data-copy]')).toContainText('Copied');
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('darshan@dragonsmithers.com');
-});
-
-test('sticky quote bar appears on mobile after scrolling and hides at the form', async ({ page }) => {
-  await watch(page);
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
-  const bar = page.locator('.quickbar');
-  await expect(bar).toHaveClass(/is-hidden/);
-  await page.locator('#process').scrollIntoViewIfNeeded();
-  await expect(bar).not.toHaveClass(/is-hidden/);
-  await page.locator('#quote').scrollIntoViewIfNeeded();
-  await expect(bar).toHaveClass(/is-hidden/);
 });
 
 test('pages carry unique titles, descriptions, canonicals and OG images', async ({ page, request }) => {
@@ -256,51 +158,32 @@ test.describe('motion', () => {
   });
 });
 
-test.describe('Ember site guide', () => {
-  test('answers from the site, passes axe while open, and closes with Escape', async ({ page }) => {
-    const errors = await watch(page);
-    await page.goto('/portfolio/');
-    const launch = page.locator('.ember-launch');
-    await launch.click();
-    await expect(launch).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.locator('#ember-q')).toBeFocused();
-    await page.fill('#ember-q', 'tell me about his projects');
-    await page.press('#ember-q', 'Enter');
-    await expect(page.locator('.ember-msg.bot').last()).toContainText('Wazuh SIEM');
-    await page.locator('.ember-chips button', { hasText: 'Résumé' }).click();
-    await expect(page.locator('.ember-msg.bot').last().locator('a[href="/resume.pdf"]')).toHaveCount(1);
-    await page.fill('#ember-q', 'what is the capital of france');
-    await page.press('#ember-q', 'Enter');
-    await expect(page.locator('.ember-msg.bot').last()).toContainText('I only know about Darshan');
-    const { violations } = await new AxeBuilder({ page }).include('.ember-panel').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
-    expect(violations.filter((v) => ['serious', 'critical'].includes(v.impact)).map((v) => v.id)).toEqual([]);
-    await page.keyboard.press('Escape');
-    await expect(page.locator('.ember-panel')).toBeHidden();
-    await expect(launch).toBeFocused();
-    expect(errors).toEqual([]);
-  });
+test('old addresses redirect to their new homes', async ({ page }) => {
+  const moved = {
+    '/portfolio/': '/', '/business/': '/', '/privacy/': '/',
+    '/portfolio/wazuh-siem/': '/blog/wazuh-siem/', '/portfolio/proxmox-lab/': '/blog/proxmox-lab/', '/portfolio/trail-window/': '/blog/trail-window/',
+  };
+  for (const [from, to] of Object.entries(moved)) {
+    await page.goto(from);
+    await page.waitForURL(`**${to}`);
+    await expect(page.locator('h1')).not.toHaveText('This page moved.');
+  }
+});
 
-  test('reduced motion never loads the 3D dragon, but the guide still works', async ({ browser }) => {
-    const ctx = await browser.newContext({ reducedMotion: 'reduce' });
-    const page = await ctx.newPage();
-    const requested = [];
-    page.on('request', (r) => requested.push(new URL(r.url()).pathname));
-    await page.goto('/portfolio/');
-    await page.waitForLoadState('load');
-    await page.waitForTimeout(3000);
-    expect(requested).not.toContain('/pet.js');
-    await expect(page.locator('html')).not.toHaveClass(/pet-on/);
-    await page.locator('.ember-launch').click();
-    await page.fill('#ember-q', 'how do I contact him');
-    await page.press('#ember-q', 'Enter');
-    await expect(page.locator('.ember-msg.bot').last().locator('a[href^="mailto:darshan@dragonsmithers.com"]')).toHaveCount(1);
-    await ctx.close();
-  });
+test('the repair business and the dragon are gone for good', async ({ request }) => {
+  for (const path of [...PAGES, '/404.html']) {
+    const html = await (await request.get(path)).text();
+    expect(html, path).not.toMatch(/Repair|DragonSmiths|web3forms|class="dragon|ember-|pet\.js/);
+  }
+  for (const gone of ['/pet.js', '/img/dragon-800.webp']) expect((await request.get(gone)).status(), gone).toBe(404);
+});
 
-  test('only appears on the portfolio pages', async ({ page }) => {
-    await page.goto('/');
-    await expect(page.locator('.ember-launch')).toHaveCount(0);
-    await page.goto('/portfolio/wazuh-siem/');
-    await expect(page.locator('.ember-launch')).toHaveCount(1);
-  });
+test('the blog lists every post and each post links back', async ({ page }) => {
+  await watch(page);
+  await page.goto('/blog/');
+  const links = await page.$$eval('.post-card h3 a', (as) => as.map((a) => a.getAttribute('href')));
+  expect(links).toEqual(['/blog/wazuh-siem/', '/blog/proxmox-lab/', '/blog/trail-window/']);
+  await page.locator('.post-card').first().click();
+  await expect(page).toHaveURL(/\/blog\/wazuh-siem\/$/);
+  await expect(page.locator('.crumbs a[href="/blog/"]')).toHaveCount(1);
 });
