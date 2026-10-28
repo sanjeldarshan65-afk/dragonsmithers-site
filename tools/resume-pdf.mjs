@@ -1,5 +1,5 @@
-// Renders the HTML résumé on /portfolio/ to /resume.pdf, so the PDF never drifts from the page.
-// Dev-only. Edit the résumé in portfolio/index.html, then run: npm run resume
+// Renders the HTML résumé on the homepage to /resume.pdf, so the PDF never drifts from the page.
+// Dev-only. Edit the résumé in index.html, then run: npm run resume
 import { chromium } from 'playwright';
 import { createServer } from 'node:http';
 import { readFile, writeFile } from 'node:fs/promises';
@@ -22,7 +22,7 @@ const server = createServer(async (req, res) => {
 const browser = await chromium.launch();
 try {
   const page = await browser.newPage();
-  await page.goto(`http://localhost:${server.address().port}/portfolio/`, { waitUntil: 'networkidle' });
+  await page.goto(`http://localhost:${server.address().port}/`, { waitUntil: 'networkidle' });
   await page.evaluate(() => {
     document.body.classList.add('print-resume');
     document.title = 'Darshan Sanjel, Résumé';

@@ -1,16 +1,29 @@
 {
-  "name": "DragonSmiths Tech Repair",
-  "short_name": "DragonSmiths",
-  "description": "Computer and network repair around Hamilton and Fairfield, Ohio.",
+  "name": "Darshan Sanjel",
+  "short_name": "Darshan Sanjel",
+  "description": "Darshan Sanjel: cybersecurity student and IT tech in Fairfield, Ohio. Projects, blog and résumé.",
   "start_url": "/",
   "scope": "/",
   "display": "browser",
   "background_color": "#0A0607",
   "theme_color": "#0A0607",
   "icons": [
-    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
-    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
-    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" },
-    { "src": "/icon-maskable-512.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+    { "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    { "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    { "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    { "src": "/icon-maskable-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
   ]
 }

@@ -3,9 +3,8 @@
     "collect": {
       "url": [
         "http://localhost:8080/",
-        "http://localhost:8080/portfolio/",
-        "http://localhost:8080/business/",
-        "http://localhost:8080/portfolio/wazuh-siem/"
+        "http://localhost:8080/blog/",
+        "http://localhost:8080/blog/wazuh-siem/"
       ],
       "numberOfRuns": 3,
       "settings": {
