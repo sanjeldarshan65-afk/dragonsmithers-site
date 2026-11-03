@@ -319,6 +319,54 @@ h3 { font-size: 19px; line-height: 1.25; font-weight: 700; }
 .lost-card { max-width: 440px; width: 100%; justify-self: center; }
 .moved { padding-block: 80px; display: grid; gap: 16px; }
 
+/* Private page: lock link, unlock form, tabs and code blocks inside the decrypted content */
+.menu .nav-lock { gap: 6px; }
+.nav-lock svg { width: 15px; height: 15px; flex: none; }
+.unlock { display: grid; gap: 8px; max-width: 460px; }
+.unlock label { font: 600 12px/1.4 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.unlock-row { display: flex; gap: 10px; }
+.unlock input { flex: 1; min-width: 0; min-height: 48px; padding: 0 14px; font: 16px var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--field-line); border-radius: 6px; }
+.unlock input:focus-visible { outline: 2px solid var(--copper); outline-offset: 1px; border-color: var(--copper); }
+.unlock-status { margin: 12px 0 0; min-height: 1.5em; font-size: 15px; color: var(--muted); }
+.unlock-status.is-error { color: var(--bad); }
+.is-unlocked .unlock-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.vault { display: grid; gap: 28px; }
+.vault-tabs { display: flex; gap: 4px; overflow-x: auto; border-bottom: 1px solid var(--line); scrollbar-width: thin; }
+.vault-tabs [role="tab"] { flex: none; min-height: 48px; padding: 0 16px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); font: 600 15px var(--body); cursor: pointer; }
+.vault-tabs [role="tab"]:hover { color: var(--ink); }
+.vault-tabs [role="tab"][aria-selected="true"] { color: var(--ink); border-bottom-color: var(--copper); }
+.vault-tabs [role="tab"]:focus-visible { outline: 2px solid var(--copper); outline-offset: -2px; }
+.vault-panel { display: grid; gap: 16px; max-width: 52em; }
+.vault-panel[hidden] { display: none; }
+.vault-panel:focus-visible { outline: 2px solid var(--copper); outline-offset: 6px; }
+.vault-panel h2 { font-size: clamp(24px, 3vw, 32px); }
+.vault-panel h3 { font-size: 19px; margin-top: 12px; }
+.vault-panel p { color: var(--muted); }
+.vault-panel code { font: 0.9em var(--mono); }
+.code-block { position: relative; }
+.code-block pre { margin: 0; padding: 18px 18px 18px; padding-right: 92px; overflow-x: auto; background: var(--sunk); border: 1px solid var(--line); border-radius: 6px; font: 13.5px/1.65 var(--mono); color: var(--ink); tab-size: 2; }
+.code-block pre:focus-visible { outline: 2px solid var(--copper); outline-offset: 2px; }
+.code-block .code-copy { position: absolute; top: 8px; right: 8px; min-height: 36px; background: var(--surface); }
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
+.table-scroll:focus-visible { outline: 2px solid var(--copper); outline-offset: 2px; }
+.table-scroll table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 15px; }
+.table-scroll th, .table-scroll td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+.table-scroll th { font: 12px/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 400; background: var(--surface); }
+.table-scroll tr:last-child td { border-bottom: 0; }
+.table-scroll td:last-child { color: var(--muted); }
+.providers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.providers li { display: grid; gap: 6px; padding: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+.providers b { font-family: var(--display); font-variation-settings: "wdth" 112; font-size: 18px; }
+.providers span { color: var(--muted); font-size: 15px; }
+@media (max-width: 640px) {
+  .providers { grid-template-columns: 1fr; }
+  .unlock-row { flex-direction: column; }
+  /* Phones: the lock icon alone, so the header fits. The label stays for screen readers. */
+  .nav-lock .nav-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .menu .nav-lock { min-width: 44px; justify-content: center; padding-inline: 10px; }
+  .nav-lock svg { width: 18px; height: 18px; }
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .split, .band-head, .sheet-intro, .lost .wrap { grid-template-columns: 1fr; gap: 32px; }

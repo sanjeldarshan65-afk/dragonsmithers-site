@@ -13,6 +13,7 @@ blog/index.html             Blog: every post
 blog/<slug>/index.html      Posts (wazuh-siem, proxmox-lab, trail-window)
 portfolio/, business/,      Redirects from old addresses, so existing links keep working.
 privacy/                    Safe to delete once nothing links to them.
+private/                    Password-locked page: index.html, vault.js (unlock + tabs), data.json (encrypted content)
 404.html                    "Page not found"
 style.css                   The whole design system: palette tokens at the top, motion at the bottom
 site.js                     Scroll reveals, copy button, résumé printing, post table of contents, analytics
@@ -50,6 +51,18 @@ the print-only sizing lives under `body.print-resume` in `style.css`.
 4. Update the "Previous / Next" links at the bottom of the neighboring posts.
 5. Add it to `sitemap.xml`, to `PAGES` in `tests/site.spec.mjs` (and the list in the blog test), and give
    it a social card in `tools/og-images.mjs`, then run `npm run og`.
+
+### Update the private page
+`/private/` shows content that is encrypted with your password. Only the encrypted `private/data.json` is
+ever on GitHub; the readable version stays on your computer as `private-content.html` (never commit it,
+`.gitignore` blocks it).
+1. Edit `private-content.html`. Each `<section data-tab="Name">` is one tab after unlocking.
+2. Open `tools/lock.html` in a browser (double-click it), choose the file, type your password twice, click **Lock**.
+3. Replace `private/data.json` with the result and push (or upload it on GitHub, or paste it to Claude).
+
+Anyone with the password can read it; nobody without it can, including GitHub. Use a long passphrase, and
+change it by locking again with a new one. To remove the page, delete `private/`, the "Private" links in each
+page's header and footer, and `/private/` from `PAGES` in `tests/site.spec.mjs`.
 
 ### Header, footer or `<head>` changes
 Each page carries its own copy (no build step), so change every page in `index.html`, `blog/` and
