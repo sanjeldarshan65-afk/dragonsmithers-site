@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /tools/
 Disallow: /tests/
+Disallow: /private/
 
 Sitemap: https://dragonsmithers.com/sitemap.xml

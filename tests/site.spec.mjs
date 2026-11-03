@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { readFileSync } from 'node:fs';
+import { webcrypto as wc } from 'node:crypto';
 
-const PAGES = ['/', '/blog/', '/blog/wazuh-siem/', '/blog/proxmox-lab/', '/blog/trail-window/'];
+const PAGES = ['/', '/blog/', '/blog/wazuh-siem/', '/blog/proxmox-lab/', '/blog/trail-window/', '/private/'];
 const WIDTHS = [390, 768, 1280];
 const SCHEMES = ['light', 'dark'];
 // Links to files Darshan still has to add. Remove an entry once the file exists.
@@ -186,4 +188,72 @@ test('the blog lists every post and each post links back', async ({ page }) => {
   await page.locator('.post-card').first().click();
   await expect(page).toHaveURL(/\/blog\/wazuh-siem\/$/);
   await expect(page.locator('.crumbs a[href="/blog/"]')).toHaveCount(1);
+});
+
+test.describe('private page', () => {
+  // Encrypt test content exactly the way tools/lock.html does (fewer PBKDF2 rounds to keep tests fast).
+  const PASSWORD = 'correct horse battery staple';
+  const CONTENT = `<section data-tab="Overview"><h2>First tab</h2><pre><code>const a = 1;</code></pre></section>
+    <section data-tab="Configuration"><h2>Second tab</h2></section><section data-tab="SDK"><h2>Third tab</h2></section>`;
+  let payload;
+  test.beforeAll(async () => {
+    const enc = new TextEncoder();
+    const b64 = (u8) => Buffer.from(u8).toString('base64');
+    const salt = wc.getRandomValues(new Uint8Array(16));
+    const iv = wc.getRandomValues(new Uint8Array(12));
+    const base = await wc.subtle.importKey('raw', enc.encode(PASSWORD), 'PBKDF2', false, ['deriveKey']);
+    const key = await wc.subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: 1000 }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt']);
+    const ct = new Uint8Array(await wc.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(CONTENT)));
+    payload = { v: 1, kdf: 'PBKDF2-SHA256', iter: 1000, cipher: 'AES-256-GCM', salt: b64(salt), iv: b64(iv), ct: b64(ct) };
+  });
+
+  test('wrong password is refused; the right one unlocks keyboard-navigable tabs', async ({ page }) => {
+    const errors = await watch(page);
+    await page.route('**/private/data.json', (r) => r.fulfill({ json: payload }));
+    await page.goto('/private/');
+    await expect(page.locator('#vault')).toBeHidden();
+    await page.fill('#vault-password', 'not the password');
+    await page.click('#unlock button');
+    await expect(page.locator('#unlock-status')).toHaveText('Wrong password.');
+    await expect(page.locator('#vault')).toBeHidden();
+
+    await page.fill('#vault-password', PASSWORD);
+    await page.click('#unlock button');
+    await expect(page.locator('#vault')).toBeVisible();
+    await expect(page.locator('#unlock')).toBeHidden();
+    const tabs = page.getByRole('tab');
+    await expect(tabs).toHaveText(['Overview', 'Configuration', 'SDK']);
+    await expect(page.getByRole('tabpanel')).toContainText('First tab');
+    await expect(tabs.first()).toBeFocused();
+    await page.keyboard.press('ArrowRight');
+    await expect(tabs.nth(1)).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('tabpanel')).toContainText('Second tab');
+    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.press('ArrowLeft');
+    await expect(tabs.nth(2)).toHaveAttribute('aria-selected', 'true');
+    await tabs.first().click();
+    await expect(page.locator('.code-copy')).toHaveCount(1);
+
+    const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+    expect(violations.filter((v) => ['serious', 'critical'].includes(v.impact)).map((v) => v.id)).toEqual([]);
+    expect(errors).toEqual([]);
+  });
+
+  test('says so when no content has been locked yet', async ({ page }) => {
+    await page.route('**/private/data.json', (r) => r.fulfill({ json: { v: 0 } }));
+    await page.goto('/private/');
+    await expect(page.locator('#unlock-status')).toHaveText("This section isn't set up yet.");
+    await expect(page.locator('#unlock button')).toBeDisabled();
+  });
+
+  test('only ciphertext is on the site, and search engines are told to skip it', async ({ page }) => {
+    const data = JSON.parse(readFileSync(new URL('../private/data.json', import.meta.url), 'utf8'));
+    if (data.v === 1) {
+      expect(Object.keys(data).sort()).toEqual(['cipher', 'ct', 'iter', 'iv', 'kdf', 'salt', 'v']);
+      expect(data.iter).toBeGreaterThanOrEqual(600000);
+    }
+    expect(JSON.stringify(data)).not.toMatch(/<section|data-tab/);
+    await page.goto('/private/');
+    await expect(page.locator('meta[name=robots]')).toHaveAttribute('content', /noindex/);
+  });
 });

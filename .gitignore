@@ -4,3 +4,7 @@ test-results/
 playwright-report/
 .lighthouseci/
 __pycache__/
+
+# Plaintext for the private page. Never commit it: only the encrypted private/data.json goes on the site.
+private-content.html
+private-src/
