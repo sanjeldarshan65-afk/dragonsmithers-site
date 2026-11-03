@@ -64,7 +64,7 @@ const CF_ANALYTICS_TOKEN = '';
 
   const REVEAL = [
     '.band-head', '.proj', '.spec-wrap', '.history > div', '.resume', '.post-card', '.case-body > section',
-    '.fault', '.diagram', '.features li', '.learning .item', '.next-case', '.prose > *', '.lost-card',
+    '.fault', '.diagram', '.features li', '.next-case', '.prose > *', '.lost-card',
   ].join(',');
   const targets = $$(REVEAL);
   if (!calm.matches && 'IntersectionObserver' in window) {
