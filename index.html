@@ -103,14 +103,14 @@
   <section class="sheet-head" aria-labelledby="page-title">
     <div class="wrap">
       <div class="part">
-        <span>Role <b>Cybersecurity · IT Support · Systems &amp; Networking</b></span>
+        <span>Role <b>Cybersecurity, IT support, networking</b></span>
         <span>Location <b>Fairfield, OH</b></span>
         <span>Status <b class="ok">Open to work</b></span>
       </div>
       <h1 id="page-title">Darshan Sanjel</h1>
       <div class="sheet-intro">
         <div class="intro-copy">
-        <p>Cybersecurity student who learns by running real systems. I operate a home security lab with a Wazuh SIEM, Proxmox, Active Directory and Pi-hole, worked a university IT help desk, and build and ship my own web tools.</p>
+        <p>Cybersecurity student who learns by running real systems. I run a home lab with a Wazuh SIEM, Proxmox and Active Directory, and I’ve worked a university IT help desk.</p>
         <div class="actions">
           <a class="btn solid" href="mailto:darshan@dragonsmithers.com?subject=Opportunity"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 6l8.5 7 8.5-7"/></svg>Email me</a>
           <a class="btn" href="/resume.pdf" download="Darshan-Sanjel-Resume.pdf"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M4 20h16"/></svg>Download résumé</a>
@@ -119,12 +119,12 @@
           <a class="btn" href="https://www.linkedin.com/in/YOUR-PROFILE/" rel="noopener" hidden>LinkedIn</a>
         </div>
         </div>
-        <figure class="term" aria-label="Lab status, as a terminal">
-          <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i><span>lab@home ~ status</span></div>
-          <pre class="term-body"><span class="l"><b>$</b> wazuh-control status</span>
-<span class="l">wazuh 4.14 · ubuntu 24.04 · <em>agents enrolled</em></span>
-<span class="l"><b>$</b> pveversion</span>
-<span class="l">proxmox-ve 9 · lxc · docker · pi-hole · tailscale</span>
+        <figure class="term" aria-label="My lab inventory, as a terminal">
+          <div class="term-bar" aria-hidden="true"><span>lab@home</span></div>
+          <pre class="term-body"><span class="l"><b>$</b> cat lab/inventory.txt</span>
+<span class="l"><em class="k">siem</em> Wazuh 4.14 on Ubuntu 24.04</span>
+<span class="l"><em class="k">hypervisor</em> Proxmox VE 9</span>
+<span class="l"><em class="k">services</em> LXC, Docker, Pi-hole, Tailscale</span>
 <span class="l"><b>$</b> <span class="cursor" aria-hidden="true"></span></span></pre>
         </figure>
       </div>
@@ -160,7 +160,7 @@
         <article class="proj">
           <aside>
             <span class="state wip"><i></i>Ongoing</span>
-            <div class="stack">Wazuh 4.14<br>Ubuntu 24.04<br>Node.js · Express<br>React · TypeScript<br>Local LLMs</div>
+            <div class="stack">Wazuh 4.14<br>Ubuntu 24.04<br>Node.js, Express<br>React, TypeScript<br>Local LLMs</div>
           </aside>
           <div>
             <h3>Wazuh SIEM: self-hosted security monitoring</h3>
@@ -178,7 +178,7 @@
         <article class="proj">
           <aside>
             <span class="state wip"><i></i>Ongoing</span>
-            <div class="stack">Proxmox VE 9<br>Debian · LXC · Docker<br>Pi-hole · Tailscale<br>LVM-thin · Bash<br>RTX 3060</div>
+            <div class="stack">Proxmox VE 9<br>Debian, LXC, Docker<br>Pi-hole, Tailscale<br>LVM-thin, Bash<br>RTX 3060</div>
           </aside>
           <div>
             <h3>Proxmox home lab: virtualization and networking</h3>
@@ -197,13 +197,13 @@
         <article class="proj">
           <aside>
             <span class="state"><i></i>Live</span>
-            <div class="stack">JavaScript<br>Leaflet · Open-Meteo<br>Cloudflare Workers<br>Playwright</div>
+            <div class="stack">JavaScript<br>Leaflet, Open-Meteo<br>Cloudflare Workers<br>Playwright</div>
           </aside>
           <div>
             <h3>Trail Window: weather-window planner</h3>
             <ul>
               <li>Ranks every daylight window in the next five days for a hike, ride or run by rain, wind and feels-like penalties, and shows the scoring math.</li>
-              <li>Parses GPX files in the browser and forecasts conditions at each checkpoint for the hour you'd reach it.</li>
+              <li>Parses GPX files in the browser and forecasts conditions at each checkpoint for the hour you’d reach it.</li>
               <li>The AI trail briefing runs behind a locked-down Cloudflare Worker: server-side API key, CORS allowlist, strict input validation, rate limiting, and a template fallback.</li>
               <li>Covered by unit tests and Playwright responsive checks at 390, 768 and 1280 px.</li>
             </ul>
@@ -218,7 +218,7 @@
         <article class="proj">
           <aside>
             <span class="state"><i></i>Live</span>
-            <div class="stack">Google Workspace<br>DNS · SPF · DKIM<br>GitHub Pages<br>HTML · CSS · JS</div>
+            <div class="stack">Google Workspace<br>DNS, SPF, DKIM<br>GitHub Pages<br>HTML, CSS, JS</div>
           </aside>
           <div>
             <h3>dragonsmithers.com: domain, email and web</h3>
@@ -241,22 +241,19 @@
       </div>
       <div class="posts">
         <article class="post-card">
-          <span class="label">Wazuh SIEM lab · Ongoing</span>
           <h3><a href="/blog/wazuh-siem/">A self-hosted SIEM that drafts its own incident write-ups.</a></h3>
           <p>Wazuh collecting logs from my home lab, with a Node.js proxy that hands alerts to locally hosted language models and a React dashboard on top.</p>
-          <span class="stack">Wazuh 4.14 · Ubuntu 24.04 · Node.js · Express · React · TypeScript</span>
+          <span class="stack">Wazuh 4.14, Ubuntu 24.04, Node.js, Express, React, TypeScript</span>
         </article>
         <article class="post-card">
-          <span class="label">Proxmox home lab · Ongoing</span>
           <h3><a href="/blog/proxmox-lab/">A repurposed laptop running my whole lab.</a></h3>
           <p>Proxmox VE 9 hosting VMs, containers, network-wide DNS filtering and a GPU-accelerated local LLM, reachable from anywhere without opening a single port.</p>
-          <span class="stack">Proxmox VE 9 · VMs · LXC · Docker · Tailscale · TOTP</span>
+          <span class="stack">Proxmox VE 9, VMs, LXC, Docker, Tailscale, TOTP</span>
         </article>
         <article class="post-card">
-          <span class="label">Trail Window · Live</span>
           <h3><a href="/blog/trail-window/">A weather planner that shows its math, with a locked-down AI briefing.</a></h3>
           <p>Trail Window ranks every daylight window in the next five days for a hike, ride or run. The AI trail briefing sits behind a Cloudflare Worker built like an API you would actually put on the internet.</p>
-          <span class="stack">JavaScript · Leaflet · Open-Meteo · Cloudflare Workers</span>
+          <span class="stack">JavaScript, Leaflet, Open-Meteo, Cloudflare Workers</span>
         </article>
       </div>
     </div>
@@ -266,7 +263,7 @@
     <div class="wrap">
       <div class="band-head">
         <h2 id="skills-title">Specifications</h2>
-        <p>Tools I've used hands-on in the lab or on the job.</p>
+        <p>Tools I’ve used hands-on in the lab or on the job.</p>
       </div>
       <div class="spec-wrap">
         <table class="spec">
@@ -285,16 +282,16 @@
     <div class="wrap">
       <div class="band-head">
         <h2 id="history-title">Experience &amp; education</h2>
-        <p>Where I've done the work and where I'm studying it.</p>
+        <p>Where I’ve done the work and where I’m studying it.</p>
       </div>
       <div class="history">
         <div>
           <span class="when">Feb – May 2025</span>
-          <div><h3>IT Help Desk Assistant · Miami University Regionals</h3><p>In-person front-line support for students, faculty and staff. Password resets and account recovery, plus setup of classroom and lab computers and peripherals.</p></div>
+          <div><h3>IT Help Desk Assistant, Miami University Regionals</h3><p>In-person front-line support for students, faculty and staff. Password resets and account recovery, plus setup of classroom and lab computers and peripherals.</p></div>
         </div>
         <div>
           <span class="when">Expected 2028</span>
-          <div><h3>A.S. Cybersecurity · University of Cincinnati Blue Ash</h3><p>Coursework in cybersecurity, networking and artificial intelligence. Earlier coursework at Miami University Regionals.</p></div>
+          <div><h3>A.S. Cybersecurity, University of Cincinnati Blue Ash</h3><p>Coursework in cybersecurity, networking and artificial intelligence. Earlier coursework at Miami University Regionals.</p></div>
         </div>
         <div>
           <span class="when">Completed</span>
@@ -318,10 +315,10 @@
         <header>
           <div>
             <h3>Darshan Sanjel</h3>
-            <p>Cybersecurity · IT Support · Systems &amp; Networking</p>
+            <p>Cybersecurity, IT support, systems and networking</p>
           </div>
           <!-- TODO(darshan): add your LinkedIn URL to this line once you have it. -->
-          <p>Fairfield, OH · darshan@dragonsmithers.com<br>dragonsmithers.com/portfolio · github.com/sanjeldarshan65-afk</p>
+          <p>Fairfield, OH, darshan@dragonsmithers.com<br>dragonsmithers.com/portfolio, github.com/sanjeldarshan65-afk</p>
         </header>
         <section>
           <h4>Summary</h4>
@@ -350,19 +347,19 @@
           <h4>Projects</h4>
           <div>
             <div class="entry">
-              <b>Wazuh SIEM lab</b> <span class="when">Wazuh 4.14 · Ubuntu 24.04 · Node/Express · React</span>
+              <b>Wazuh SIEM lab</b> <span class="when">Wazuh 4.14, Ubuntu 24.04, Node/Express, React</span>
               <ul><li>All-in-one Wazuh with agents on the hypervisor and SIEM host; Express proxy feeds alerts to local LLMs to draft incident-response write-ups; React alert dashboard.</li></ul>
             </div>
             <div class="entry">
-              <b>Proxmox VE 9 home lab</b> <span class="when">LXC · Docker · Pi-hole · Tailscale</span>
+              <b>Proxmox VE 9 home lab</b> <span class="when">LXC, Docker, Pi-hole, Tailscale</span>
               <ul><li>VMs and LXC on a repurposed laptop; Pi-hole with Cloudflare upstreams; LVM-thin snapshots; TOTP login; Tailscale remote access; RTX 3060 local LLM. Diagnosed static-IP and USB NIC link faults.</li></ul>
             </div>
             <div class="entry">
-              <b>Trail Window</b> <span class="when">JavaScript · Cloudflare Workers · Playwright</span>
+              <b>Trail Window</b> <span class="when">JavaScript, Cloudflare Workers, Playwright</span>
               <ul><li>Weather-window planner with GPX parsing; AI briefing behind a hardened Worker (server-side key, CORS allowlist, validation, rate limiting).</li></ul>
             </div>
             <div class="entry">
-              <b>dragonsmithers.com infrastructure</b> <span class="when">Google Workspace · DNS · GitHub Pages</span>
+              <b>dragonsmithers.com infrastructure</b> <span class="when">Google Workspace, DNS, GitHub Pages</span>
               <ul><li>Administer the Workspace tenant (users, 2-Step Verification, DKIM), DNS records including SPF, and this GitHub Pages site on a verified custom domain.</li></ul>
             </div>
           </div>
@@ -376,7 +373,7 @@
         </section>
         <section>
           <h4>Skills</h4>
-          <p>Wazuh, log analysis, SPF/DKIM/DMARC, TOTP 2FA · Ubuntu, Debian, Windows Server, Active Directory, Proxmox VE, Docker, LXC, Google Workspace Admin · DNS, Pi-hole, Tailscale, static addressing, firewall rules · JavaScript, TypeScript, Bash, React, Node.js, SQL, Git</p>
+          <p>Wazuh, log analysis, SPF/DKIM/DMARC, TOTP 2FA; Ubuntu, Debian, Windows Server, Active Directory, Proxmox VE, Docker, LXC, Google Workspace Admin; DNS, Pi-hole, Tailscale, static addressing, firewall rules; JavaScript, TypeScript, Bash, React, Node.js, SQL, Git</p>
         </section>
       </article>
     </div>
@@ -386,7 +383,7 @@
     <div class="wrap split">
       <div>
         <h2 id="contact-title">Hiring for IT, help desk or data center work?</h2>
-        <p class="muted-copy">I'm looking for roles and internships around Cincinnati and Dayton. Email is the fastest way to reach me.</p>
+        <p class="muted-copy">I’m looking for roles and internships around Cincinnati and Dayton. Email is the fastest way to reach me.</p>
       </div>
       <div class="contact-card">
         <span class="label">Email</span>
