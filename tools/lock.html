@@ -80,7 +80,9 @@
     say('Locking…');
     try {
       const text = await file.text();
-      if (!/data-tab=/.test(text)) return say('That file has no <section data-tab="…"> blocks. Choose private-content.html.', 'bad');
+      let isStudy = false;
+      try { isStudy = Array.isArray(JSON.parse(text).sections); } catch { /* not JSON: the private page */ }
+      if (!isStudy && !/data-tab=/.test(text)) return say('That file has no <section data-tab="…"> blocks. Choose private-content.html (or private-src/study.json for the study site).', 'bad');
       $('out').value = await lock(text, p1);
       $('copy').disabled = $('dl').disabled = false;
       $('p1').value = $('p2').value = '';
