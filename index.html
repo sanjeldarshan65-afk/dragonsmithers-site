@@ -112,40 +112,28 @@
         <div class="intro-copy">
         <p>Cybersecurity student who learns by running real systems. I run a home lab with a Wazuh SIEM, Proxmox and Active Directory, and I’ve worked a university IT help desk.</p>
         <div class="actions">
-          <a class="btn solid" href="mailto:darshan@dragonsmithers.com?subject=Opportunity"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 6l8.5 7 8.5-7"/></svg>Email me</a>
-          <a class="btn" href="/resume.pdf" download="Darshan-Sanjel-Resume.pdf"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M4 20h16"/></svg>Download résumé</a>
+          <a class="btn solid" href="mailto:darshan@dragonsmithers.com?subject=Opportunity"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 6l8.5 7 8.5-7"/></svg>Email me</a>
+          <a class="btn" href="/resume.pdf" download="Darshan-Sanjel-Resume.pdf"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M4 20h16"/></svg>Download résumé</a>
           <a class="btn" href="https://github.com/sanjeldarshan65-afk" rel="noopener"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>GitHub</a>
           <!-- TODO(darshan): add your LinkedIn URL and remove "hidden". -->
           <a class="btn" href="https://www.linkedin.com/in/YOUR-PROFILE/" rel="noopener" hidden>LinkedIn</a>
         </div>
         </div>
-        <figure class="term" aria-label="My lab inventory, as a terminal">
-          <div class="term-bar" aria-hidden="true"><span>lab@home</span></div>
-          <pre class="term-body"><span class="l"><b>$</b> cat lab/inventory.txt</span>
-<span class="l"><em class="k">siem</em> Wazuh 4.14 on Ubuntu 24.04</span>
-<span class="l"><em class="k">hypervisor</em> Proxmox VE 9</span>
-<span class="l"><em class="k">services</em> LXC, Docker, Pi-hole, Tailscale</span>
-<span class="l"><b>$</b> <span class="cursor" aria-hidden="true"></span></span></pre>
+        <figure class="lab" aria-labelledby="lab-cap">
+          <p class="lab-edge lab-remote"><b>My laptop or phone, anywhere</b><span>Tailscale mesh VPN, no ports open on the router</span></p>
+          <div class="lab-host">
+            <p class="lab-host-name"><b>Proxmox VE 9 host</b><span>Repurposed laptop, 64 GB RAM, RTX 3060, TOTP login</span></p>
+            <ul class="lab-guests">
+              <li><a href="/blog/wazuh-siem/"><b>Wazuh SIEM</b><span>Ubuntu 24.04 VM, agents on the host</span></a></li>
+              <li><a href="/blog/wazuh-siem/"><b>Local LLM</b><span>Drafts incident write-ups from alerts</span></a></li>
+              <li><a href="/blog/proxmox-lab/"><b>Pi-hole</b><span>LXC, DNS filtering for the house</span></a></li>
+              <li><a href="/blog/proxmox-lab/"><b>Docker</b><span>Containers, snapshot before risky changes</span></a></li>
+            </ul>
+          </div>
+          <p class="lab-edge lab-home"><b>Home devices</b><span>Every DNS query goes through Pi-hole, then Cloudflare</span></p>
+          <figcaption id="lab-cap">My home lab, as it’s wired. Each box opens its write-up.</figcaption>
         </figure>
       </div>
-    </div>
-  </section>
-
-  <section class="band board" aria-labelledby="glance-title">
-    <div class="wrap">
-      <div class="band-head">
-        <h2 id="glance-title">At a glance</h2>
-        <p>What I bring to an IT support, help desk, data center or security role.</p>
-      </div>
-      <ul class="features">
-        <li>Google Cloud Cybersecurity Certificate (completed)</li>
-        <li>Front-line support experience at a university help desk</li>
-        <li>Runs a Wazuh SIEM with agents, alerting and a custom dashboard</li>
-        <li>Administers a Proxmox VE hypervisor with VMs, LXC and Docker</li>
-        <li>Windows Server and Active Directory: users, OUs, Group Policy</li>
-        <li>DNS, mail authentication and domain admin for a live domain</li>
-        <li>Writes JavaScript/TypeScript, Bash and Node.js tooling</li>
-      </ul>
     </div>
   </section>
 
@@ -307,8 +295,8 @@
       <div class="band-head">
         <h2 id="resume-title">Résumé</h2>
         <div class="actions no-print">
-          <a class="btn solid" href="/resume.pdf" download="Darshan-Sanjel-Resume.pdf"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M4 20h16"/></svg>Download PDF</a>
-          <button class="btn" type="button" data-print-resume><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3h10v6M7 17H4v-7h16v7h-3"/><rect x="7" y="14" width="10" height="7"/></svg>Print this page</button>
+          <a class="btn solid" href="/resume.pdf" download="Darshan-Sanjel-Resume.pdf"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M4 20h16"/></svg>Download PDF</a>
+          <button class="btn" type="button" data-print-resume><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3h10v6M7 17H4v-7h16v7h-3"/><rect x="7" y="14" width="10" height="7"/></svg>Print this page</button>
         </div>
       </div>
       <article class="resume" aria-label="Résumé of Darshan Sanjel">
@@ -389,7 +377,7 @@
         <span class="label">Email</span>
         <div class="email-line">
           <a class="addr big" href="mailto:darshan@dragonsmithers.com?subject=Opportunity">darshan@dragonsmithers.com</a>
-          <button class="copy-btn" type="button" data-copy="darshan@dragonsmithers.com"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="1.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></svg><span>Copy</span></button>
+          <button class="copy-btn" type="button" data-copy="darshan@dragonsmithers.com"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="1.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></svg><span>Copy</span></button>
           <span class="vh" id="copy-live" aria-live="polite"></span>
         </div>
         <div class="actions">
