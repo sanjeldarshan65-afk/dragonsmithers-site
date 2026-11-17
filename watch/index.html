@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Watch | Darshan Sanjel</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <main class="wrap moved">
+    <a href="../">Back to home</a>
+    <h1>Watch</h1>
+    <form id="player-form">
+      <label for="title-id">TMDB ID or ID/season/episode</label>
+      <input id="title-id" name="title" type="text" required
+        pattern="[1-9][0-9]*(?:\/[1-9][0-9]*\/[1-9][0-9]*)?"
+        aria-describedby="player-help">
+      <button class="btn solid" type="submit">Load player</button>
+      <p id="player-help">Enter a movie ID, or a series ID followed by the season and episode. The player is hosted by FrameXTV.</p>
+    </form>
+    <iframe id="player" title="FrameXTV video player" allowfullscreen
+      referrerpolicy="no-referrer" hidden
+      style="width: 100%; aspect-ratio: 16 / 9; border: 0"></iframe>
+  </main>
+  <script>
+    const form = document.querySelector('#player-form');
+    const player = document.querySelector('#player');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      player.src = 'https://framextv.xyz/embed/' + form.elements.title.value;
+      player.hidden = false;
+    });
+  </script>
+</body>
+</html>
