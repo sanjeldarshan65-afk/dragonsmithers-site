@@ -33,12 +33,12 @@
 <main>
   <h1>Lock the private page</h1>
   <ol>
-    <li>Choose your private content file (<code>private-content.html</code>).</li>
-    <li>Type a password twice. Use a long passphrase: four or more random words.</li>
+    <li>Choose your private content file (<code>private-content.html</code>, or <code>private-src/study.json</code> for the study site).</li>
+    <li>Type a password twice. Use a long passphrase: four or more random words. Use the same one for both files.</li>
     <li>Click <b>Lock</b>, then copy the result or download it as <code>data.json</code>.</li>
-    <li>Put it on the site as <code>private/data.json</code> (or paste it to Claude to commit for you).</li>
+    <li>Put it on the site as <code>private/data.json</code> (study: <code>private/study/data.json</code>), or paste it to Claude to commit for you.</li>
   </ol>
-  <label>Content file <input type="file" id="file" accept=".html,.htm,.txt"></label>
+  <label>Content file <input type="file" id="file" accept=".html,.htm,.txt,.json,application/json,text/plain,text/html"></label>
   <label>Password <small>at least 12 characters</small><input type="password" id="p1" autocomplete="new-password"></label>
   <label>Password again <input type="password" id="p2" autocomplete="new-password"></label>
   <div class="row"><button class="solid" id="go" type="button">Lock</button></div>

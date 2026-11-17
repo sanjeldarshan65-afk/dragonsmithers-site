@@ -3,7 +3,8 @@ import AxeBuilder from '@axe-core/playwright';
 import { readFileSync } from 'node:fs';
 import { webcrypto as wc } from 'node:crypto';
 
-const PAGES = ['/', '/blog/', '/blog/wazuh-siem/', '/blog/proxmox-lab/', '/blog/trail-window/', '/private/'];
+const STUDY = ['', 'hardware/', 'troubleshooting/', 'server-mgmt/', 'linux/', 'logs/', 'quiz/', 'flashcards/', 'cheatsheet/'].map((p) => `/private/study/${p}`);
+const PAGES = ['/', '/blog/', '/blog/wazuh-siem/', '/blog/proxmox-lab/', '/blog/trail-window/', '/private/', ...STUDY];
 const WIDTHS = [390, 768, 1280];
 const SCHEMES = ['light', 'dark'];
 // Links to files Darshan still has to add. Remove an entry once the file exists.
@@ -112,7 +113,8 @@ test('copy button copies the email address', async ({ page, context }) => {
 
 test('pages carry unique titles, descriptions, canonicals and OG images', async ({ page, request }) => {
   const seen = new Set();
-  for (const path of PAGES) {
+  // Study pages are private and noindex: no share cards or canonicals, on purpose.
+  for (const path of PAGES.filter((p) => !STUDY.includes(p))) {
     await page.goto(path);
     const title = await page.title();
     const desc = await page.locator('meta[name=description]').getAttribute('content');
@@ -256,6 +258,106 @@ test.describe('private page', () => {
     }
     expect(JSON.stringify(data)).not.toMatch(/<section|data-tab/);
     await page.goto('/private/');
+    await expect(page.locator('meta[name=robots]')).toHaveAttribute('content', /noindex/);
+  });
+});
+
+test.describe('study site', () => {
+  // Same lock format as /private/ (tools/lock.html), with a small non-secret fixture instead of the real notes.
+  const PASSWORD = 'correct horse battery staple';
+  let payload;
+  test.beforeAll(async () => {
+    const enc = new TextEncoder();
+    const b64 = (u8) => Buffer.from(u8).toString('base64');
+    const text = readFileSync(new URL('./fixtures/study-sample.json', import.meta.url), 'utf8');
+    const salt = wc.getRandomValues(new Uint8Array(16));
+    const iv = wc.getRandomValues(new Uint8Array(12));
+    const base = await wc.subtle.importKey('raw', enc.encode(PASSWORD), 'PBKDF2', false, ['deriveKey']);
+    const key = await wc.subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: 1000 }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt']);
+    const ct = new Uint8Array(await wc.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(text)));
+    payload = { v: 1, kdf: 'PBKDF2-SHA256', iter: 1000, cipher: 'AES-256-GCM', salt: b64(salt), iv: b64(iv), ct: b64(ct) };
+  });
+
+  test('wrong password is refused; one unlock opens every study page; Lock forgets it', async ({ page }) => {
+    const errors = await watch(page);
+    const outside = [];
+    page.on('request', (r) => { if (!r.url().startsWith('http://localhost')) outside.push(r.url()); });
+    await page.route('**/private/study/data.json', (r) => r.fulfill({ json: payload }));
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/private/study/');
+    await expect(page.locator('#study')).toBeHidden();
+    await page.fill('#vault-password', 'not the password');
+    await page.click('#unlock button');
+    await expect(page.locator('#unlock-status')).toHaveText('Wrong password.');
+    await page.fill('#vault-password', PASSWORD);
+    await page.click('#unlock button');
+    await expect(page.locator('.prog-card')).toHaveCount(7);
+    for (const path of STUDY.slice(1)) {
+      await page.goto(path);
+      await expect(page.locator('#study')).toBeVisible();
+      await expect(page.locator('#study')).not.toContainText(/\bnull\b|undefined/);
+      const { sw, cw } = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
+      expect(sw, `no horizontal scroll on ${path}`).toBeLessThanOrEqual(cw);
+      const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+      expect(violations.filter((v) => ['serious', 'critical'].includes(v.impact)).map((v) => `${path} ${v.id}`)).toEqual([]);
+    }
+    await page.locator('.study-foot button').click();
+    await expect(page.locator('#unlock')).toBeVisible();
+    expect(outside).toEqual([]);
+    expect(errors).toEqual([]);
+  });
+
+  test('terminal exercise, scenario, flashcards and quiz work and save progress', async ({ page }) => {
+    await page.route('**/private/study/data.json', (r) => r.fulfill({ json: payload }));
+    await page.goto('/private/study/linux/');
+    await page.fill('#vault-password', PASSWORD);
+    await page.click('#unlock button');
+    const run = async (c) => { await page.fill('.term-input', c); await page.press('.term-input', 'Enter'); };
+    for (const c of ['mkdir lab', 'cd lab', 'touch notes.txt', 'cp notes.txt notes-copy.txt', 'mv notes-copy.txt notes-old.txt', 'rm notes-old.txt']) await run(c);
+    await expect(page.locator('.ex-steps li.is-done')).toHaveCount(5);
+    await run('ls');
+    await expect(page.locator('.term-out')).toContainText('notes.txt');
+    await run('rm -rf /');
+    await expect(page.locator('.term-out')).toContainText("dangerous to operate recursively on '/'");
+
+    await page.goto('/private/study/troubleshooting/');
+    await page.getByRole('button', { name: 'Replace the board' }).click();
+    await expect(page.locator('#sc-a .feedback')).toContainText('Too expensive.');
+    await page.getByRole('button', { name: 'Check the outlet' }).click();
+    await page.getByRole('button', { name: 'Finish' }).click();
+    await expect(page.locator('#sc-a')).toContainText('Outlet inward.');
+
+    await page.goto('/private/study/flashcards/');
+    await page.locator('.card-face').click();
+    await expect(page.locator('.card-face')).toHaveClass(/is-back/);
+    await page.locator('.card-btns .btn.solid').click();
+
+    await page.goto('/private/study/quiz/');
+    await page.getByRole('button', { name: 'Start the quiz' }).click();
+    for (let i = 0; i < 2; i++) {
+      const legend = await page.locator('legend').textContent();
+      await page.getByRole('button', { name: legend.endsWith('B') ? 'B' : 'A', exact: true }).click();
+      await page.locator('.quiz .btn.solid').click();
+    }
+    await page.getByRole('button', { name: 'Show the model answer' }).click();
+    await page.getByRole('button', { name: 'I covered the key points' }).click();
+    await expect(page.locator('.result')).toHaveText('2/2 · 100%');
+
+    await page.goto('/private/study/');
+    await expect(page.locator('.prog-card .num')).toHaveText(['0/1', '1/2', '0/1', '1/2', '0/2', '1/2', '100%']);
+  });
+
+  test('only ciphertext (or the not-set-up placeholder) is committed', async ({ page }) => {
+    const data = JSON.parse(readFileSync(new URL('../private/study/data.json', import.meta.url), 'utf8'));
+    if (data.v === 1) {
+      expect(Object.keys(data).sort()).toEqual(['cipher', 'ct', 'iter', 'iv', 'kdf', 'salt', 'v']);
+      expect(data.iter).toBeGreaterThanOrEqual(600000);
+    } else {
+      expect(data.v).toBe(0);
+      await page.goto('/private/study/');
+      await expect(page.locator('#unlock-status')).toHaveText("The study site isn't set up yet.");
+    }
+    expect(JSON.stringify(data)).not.toMatch(/"sections"|"flashcards"/);
     await expect(page.locator('meta[name=robots]')).toHaveAttribute('content', /noindex/);
   });
 });

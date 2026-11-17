@@ -13,7 +13,10 @@ blog/index.html             Blog: every post
 blog/<slug>/index.html      Posts (wazuh-siem, proxmox-lab, trail-window)
 portfolio/, business/,      Redirects from old addresses, so existing links keep working.
 privacy/                    Safe to delete once nothing links to them.
-private/                    Password-locked page: index.html, vault.js (unlock + tabs), data.json (encrypted content)
+private/                    Password-locked page: index.html, vault.js (unlock + tabs), data.json (encrypted content),
+                            vault-crypto.js (decrypt, shared with the study site)
+private/study/              Password-locked study site (same password and lock tool): page shells, study.js, study.css,
+                            data.json (encrypted content)
 404.html                    "Page not found"
 style.css                   The whole design system: palette tokens at the top, motion at the bottom
 site.js                     Scroll reveals, copy button, résumé printing, post table of contents, analytics
@@ -63,6 +66,17 @@ ever on GitHub; the readable version stays on your computer as `private-content.
 Anyone with the password can read it; nobody without it can, including GitHub. Use a long passphrase, and
 change it by locking again with a new one. To remove the page, delete `private/`, the "Private" links in each
 page's header and footer, and `/private/` from `PAGES` in `tests/site.spec.mjs`.
+
+### Update the study site
+`/private/study/` uses the same password and the same lock as `/private/`. All its content (topics, scenarios,
+terminal exercise, flashcards, quiz, cheat sheet, video links) is one file, `private-src/study.json`, which stays on
+your computer (`private-src/` is gitignored).
+1. Edit `private-src/study.json`.
+2. Open `tools/lock.html`, choose that file, type the **same** password as `/private/`, click **Lock**.
+3. Save the result as `private/study/data.json` and push.
+
+Progress (which topics you ticked, known flashcards, quiz scores) is saved in your browser's localStorage, per device.
+After you unlock, the content is kept for that tab only (sessionStorage); closing the tab or pressing **Lock** forgets it.
 
 ### Header, footer or `<head>` changes
 Each page carries its own copy (no build step), so change every page in `index.html`, `blog/` and

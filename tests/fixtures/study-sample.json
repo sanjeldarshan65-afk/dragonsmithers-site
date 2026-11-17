@@ -1,0 +1,30 @@
+{
+  "v": 1,
+  "meta": { "title": "Sample", "interview": "2099-01-01T09:00:00", "interviewLabel": "Sample date", "note": "Test fixture. The real content lives in private-src/study.json and is never committed." },
+  "videos": [{ "title": "Video 1", "url": "" }, { "title": "Video 2", "url": "" }],
+  "sections": [
+    { "id": "hardware", "title": "Hardware", "blurb": "Sample hardware.", "topics": [{ "id": "post-boot", "title": "POST vs boot", "lines": ["Line one.", "Line two with `code`.", "Line three."], "code": "lspci", "say": "Sample say-it line." }] },
+    { "id": "troubleshooting", "title": "Troubleshooting", "blurb": "Sample.", "topics": [{ "id": "method", "title": "Method", "lines": ["a", "b", "c"], "say": "s" }] },
+    { "id": "server-mgmt", "title": "Server management", "blurb": "Sample.", "topics": [{ "id": "ssh", "title": "SSH", "lines": ["a", "b", "c"], "say": "s", "sample": "Chassis Power is on" }] },
+    { "id": "linux", "title": "Linux", "blurb": "Sample.", "topics": [{ "id": "pwd", "title": "pwd", "lines": ["a", "b", "c"], "say": "s" }] },
+    { "id": "logs", "title": "Logs & performance", "blurb": "Sample.", "topics": [{ "id": "dmesg", "title": "dmesg", "lines": ["a", "b", "c"], "say": "s" }],
+      "samples": [{ "id": "log-a", "title": "Sample log", "log": "EDAC MC0: 1 CE", "question": "What now?", "answer": ["Swap the DIMM."] }] }
+  ],
+  "scenarios": [{ "id": "sc-a", "title": "Sample scenario", "intro": "Dead box.", "takeaway": "Outlet inward.",
+    "steps": [{ "prompt": "First?", "options": [{ "text": "Check the outlet", "correct": true, "why": "Cheapest first." }, { "text": "Replace the board", "why": "Too expensive." }] }] }],
+  "terminal": { "user": "tech", "host": "lab01", "home": "/home/tech", "dirs": ["/tmp"], "files": { "/home/tech/readme.txt": "hello" },
+    "man": { "ls": "ls - list directory contents" }, "canned": { "uname -a": "Linux lab01" },
+    "exercise": [
+      { "task": "Make lab.", "hint": "mkdir lab", "checks": [{ "dir": "~/lab" }] },
+      { "task": "Create notes.txt in lab.", "hint": "touch lab/notes.txt", "checks": [{ "file": "~/lab/notes.txt" }] },
+      { "task": "Copy it to notes-copy.txt.", "hint": "cp", "checks": [{ "file": "~/lab/notes-copy.txt" }] },
+      { "task": "Rename the copy to notes-old.txt.", "hint": "mv", "checks": [{ "missing": "~/lab/notes-copy.txt" }, { "file": "~/lab/notes-old.txt" }] },
+      { "task": "Delete notes-old.txt.", "hint": "rm", "checks": [{ "missing": "~/lab/notes-old.txt" }, { "file": "~/lab/notes.txt" }] }
+    ] },
+  "flashcards": [{ "s": "hardware", "q": "Q1?", "a": "A1." }, { "s": "linux", "q": "Q2?", "a": "A2." }],
+  "quiz": {
+    "mc": [{ "s": "hardware", "q": "Pick B", "options": ["A", "B"], "answer": 1, "why": "Because." }, { "s": "linux", "q": "Pick A", "options": ["A", "B"], "answer": 0, "why": "Because." }],
+    "scenarios": [{ "s": "logs", "prompt": "Explain.", "model": "Model answer." }]
+  },
+  "cheatsheet": [{ "title": "Hardware", "items": ["POST = firmware check."] }]
+}

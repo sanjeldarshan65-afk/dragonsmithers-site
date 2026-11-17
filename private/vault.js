@@ -10,31 +10,18 @@
   const vault = $('#vault');
   if (!form || !vault) return;
 
-  const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
   const say = (text, bad = false) => { status.textContent = text; status.classList.toggle('is-error', bad); };
   let data = null;
 
-  const load = fetch('/private/data.json', { cache: 'no-store' })
-    .then((r) => (r.ok ? r.json() : null))
-    .catch(() => null)
-    .then((d) => {
-      data = d && d.v === 1 && d.ct ? d : null;
-      if (!data) {
-        say("This section isn't set up yet.", true);
-        form.querySelector('button').disabled = true;
-      }
-    });
-
-  async function decrypt(password) {
-    const enc = new TextEncoder();
-    const base = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
-    const key = await crypto.subtle.deriveKey(
-      { name: 'PBKDF2', hash: 'SHA-256', salt: unb64(data.salt), iterations: data.iter },
-      base, { name: 'AES-GCM', length: 256 }, false, ['decrypt'],
-    );
-    const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(data.iv) }, key, unb64(data.ct));
-    return new TextDecoder().decode(plain);
-  }
+  // Fetching and decrypting live in vault-crypto.js, shared with the study pages.
+  const load = window.VaultCrypto.load('/private/data.json').then((d) => {
+    data = d;
+    if (!data) {
+      say("This section isn't set up yet.", true);
+      form.querySelector('button').disabled = true;
+    }
+  });
+  const decrypt = (password) => window.VaultCrypto.decrypt(data, password);
 
   function render(html) {
     const tpl = document.createElement('template');
@@ -114,6 +101,7 @@
       $('#page-title').textContent = 'Private.';
       $('.page-head .lede').textContent = 'Unlocked for this visit. Reloading or leaving the page locks it again.';
       say('Unlocked.');
+      $('#study-link')?.removeAttribute('hidden');
       $('[role=tab][aria-selected=true]', vault)?.focus();
     } catch {
       say('Wrong password.', true);
