@@ -73,7 +73,7 @@
       <p class="lede">Trail Window ranks every daylight window in the next five days for a hike, ride or run. The AI trail briefing sits behind a Cloudflare Worker built like an API you would actually put on the internet.</p>
       <dl class="case-meta">
         <div><dt>Status</dt><dd>Live</dd></div>
-        <div><dt>Front end</dt><dd>JavaScript · Leaflet</dd></div>
+        <div><dt>Front end</dt><dd>JavaScript, Leaflet</dd></div>
         <div><dt>Data</dt><dd>Open-Meteo</dd></div>
         <div><dt>Back end</dt><dd>Cloudflare Workers</dd></div>
       </dl>
@@ -87,20 +87,20 @@
         <a href="#setup">Setup</a>
         <a href="#architecture">Architecture</a>
         <a href="#broke">What broke</a>
-        <a href="#next">What I'd do next</a>
+        <a href="#next">What I’d do next</a>
       </nav>
       <article class="case-body">
         <section id="problem" aria-labelledby="problem-h">
           <h2 id="problem-h"><span class="step">01</span>The problem</h2>
           <!-- TODO(darshan): put the "why" in your own words. This paragraph is a starting point. -->
-          <p>Weather apps tell you the forecast, not when to go. I wanted a tool that answers "when is the best time this week for this route?" and explains why, and I wanted its AI feature to be safe to leave running on the public internet.</p>
-          <p><a href="https://sanjeldarshan65-afk.github.io/trail-window/" rel="noopener">Try the live app</a> · <a href="https://github.com/sanjeldarshan65-afk/trail-window" rel="noopener">Read the source</a></p>
+          <p>Weather apps tell you the forecast, not when to go. I wanted a tool that answers “when is the best time this week for this route?” and explains why, and I wanted its AI feature to be safe to leave running on the public internet.</p>
+          <p><a href="https://sanjeldarshan65-afk.github.io/trail-window/" rel="noopener">Try the live app</a> or <a href="https://github.com/sanjeldarshan65-afk/trail-window" rel="noopener">read the source</a></p>
         </section>
         <section id="setup" aria-labelledby="setup-h">
           <h2 id="setup-h"><span class="step">02</span>Setup</h2>
           <ul>
             <li>Ranks every daylight window in the next five days using <strong>rain, wind and feels-like penalties</strong>, and shows the scoring math instead of hiding it.</li>
-            <li>Parses <strong>GPX files in the browser</strong> and forecasts conditions at each checkpoint for the hour you'd reach it.</li>
+            <li>Parses <strong>GPX files in the browser</strong> and forecasts conditions at each checkpoint for the hour you’d reach it.</li>
             <li>Maps with <strong>Leaflet</strong>; forecasts from <strong>Open-Meteo</strong>.</li>
             <li>The AI trail briefing goes through a <strong>Cloudflare Worker</strong> with a server-side API key, a CORS allowlist, strict input validation, rate limiting, and a template fallback.</li>
             <li><strong>Unit tests</strong> plus <strong>Playwright</strong> responsive checks at 390, 768 and 1280 px.</li>
@@ -121,8 +121,8 @@
       <text class="z" x="22" y="30">Your browser</text>
       <rect class="box hot" x="30" y="50" width="240" height="92" rx="4"/>
       <text class="t" x="44" y="76">Trail Window app</text>
-      <text class="s" x="44" y="96">static site · JavaScript</text>
-      <text class="s" x="44" y="113">Leaflet map · scoring</text>
+      <text class="s" x="44" y="96">static site, JavaScript</text>
+      <text class="s" x="44" y="113">Leaflet map, scoring</text>
       <rect class="box" x="30" y="220" width="240" height="72" rx="4"/>
       <text class="t" x="44" y="246">GPX file</text>
       <text class="s" x="44" y="266">parsed in the browser</text>
@@ -164,8 +164,8 @@
           <h3>Threats the Worker is built against</h3>
           <ul>
             <li><strong>Leaked API key:</strong> the key is a server-side secret in the Worker, never shipped to the browser.</li>
-            <li><strong>Other sites using my endpoint:</strong> a CORS allowlist only accepts requests from the app's origin.</li>
-            <li><strong>Malformed or oversized input:</strong> strict validation rejects anything that isn't a well-formed briefing request.</li>
+            <li><strong>Other sites using my endpoint:</strong> a CORS allowlist only accepts requests from the app’s origin.</li>
+            <li><strong>Malformed or oversized input:</strong> strict validation rejects anything that isn’t a well-formed briefing request.</li>
             <li><strong>Abuse and runaway cost:</strong> rate limiting caps how often the endpoint can be called.</li>
             <li><strong>Model outage:</strong> a template fallback still returns a useful briefing.</li>
           </ul>
@@ -173,10 +173,10 @@
                using the Symptom / Cause / Fix format. -->
         </section>
         <section id="next" aria-labelledby="next-h">
-          <h2 id="next-h"><span class="step">05</span>What I'd do next</h2>
+          <h2 id="next-h"><span class="step">05</span>What I’d do next</h2>
           <!-- TODO(darshan): these are suggestions, not things you've said. Keep, edit or replace them. -->
           <ul>
-            <li>Let people tune the penalty weights (some hikers don't mind wind) and save their preferences.</li>
+            <li>Let people tune the penalty weights (some hikers don’t mind wind) and save their preferences.</li>
             <li>Add Worker request logging and alerting so abuse shows up before the rate limit does.</li>
           </ul>
         </section>

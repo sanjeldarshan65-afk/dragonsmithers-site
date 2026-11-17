@@ -74,8 +74,8 @@
       <dl class="case-meta">
         <div><dt>Status</dt><dd>Ongoing</dd></div>
         <div><dt>Hypervisor</dt><dd>Proxmox VE 9</dd></div>
-        <div><dt>Workloads</dt><dd>VMs · LXC · Docker</dd></div>
-        <div><dt>Access</dt><dd>Tailscale · TOTP</dd></div>
+        <div><dt>Workloads</dt><dd>VMs, LXC, Docker</dd></div>
+        <div><dt>Access</dt><dd>Tailscale, TOTP</dd></div>
       </dl>
     </div>
   </section>
@@ -87,7 +87,7 @@
         <a href="#setup">Setup</a>
         <a href="#architecture">Architecture</a>
         <a href="#broke">What broke</a>
-        <a href="#next">What I'd do next</a>
+        <a href="#next">What I’d do next</a>
       </nav>
       <article class="case-body">
         <section id="problem" aria-labelledby="problem-h">
@@ -133,13 +133,13 @@
       <rect class="box" x="30" y="250" width="480" height="72" rx="4"/>
       <text class="t" x="44" y="276">LVM-thin storage</text>
       <text class="s" x="44" y="296">snapshots before risky changes</text>
-      <text class="s" x="22" y="344" text-anchor="start">Proxmox VE 9 host · 64 GB RAM · TOTP login</text>
+      <text class="s" x="22" y="344" text-anchor="start">Proxmox VE 9 host, 64 GB RAM, TOTP login</text>
       <rect class="box" x="570" y="50" width="170" height="72" rx="4"/>
       <text class="t" x="584" y="76">Cloudflare DNS</text>
       <text class="s" x="584" y="96">upstream resolver</text>
       <rect class="box" x="570" y="150" width="170" height="72" rx="4"/>
       <text class="t" x="584" y="176">Home devices</text>
-      <text class="s" x="584" y="196">phones · laptops · TVs</text>
+      <text class="s" x="584" y="196">phones, laptops, TVs</text>
       <rect class="box" x="570" y="250" width="170" height="72" rx="4"/>
       <text class="t" x="584" y="276">Remote device</text>
       <text class="s" x="584" y="296">via Tailscale</text>
@@ -166,7 +166,7 @@
               <dt>Symptom</dt><dd>Intermittent outages: the host and its services became unreachable.</dd>
               <dt>Cause</dt><dd>A static-IP misconfiguration on the host.</dd>
               <!-- TODO(darshan): describe exactly what was wrong (duplicate IP? wrong gateway/netmask? DHCP overlap?) and what you changed. -->
-              <dt>Fix</dt><dd>Corrected the host's static addressing.</dd>
+              <dt>Fix</dt><dd>Corrected the host’s static addressing.</dd>
             </dl>
           </div>
           <div class="fault">
@@ -175,13 +175,13 @@
               <dt>Symptom</dt><dd>Poor throughput and intermittent carrier drops.</dd>
               <dt>Cause</dt><dd>The USB Ethernet adapter was negotiating at 100 Mb/s instead of gigabit and losing carrier.</dd>
               <!-- TODO(darshan): add how you found it (ethtool? dmesg? journalctl?) and what fixed it (new adapter, cable, port?). -->
-              <dt>Fix</dt><dd>Traced the problem to the adapter's link negotiation.</dd>
+              <dt>Fix</dt><dd>Traced the problem to the adapter’s link negotiation.</dd>
             </dl>
           </div>
-          <p><strong>What I took from it:</strong> when a whole host "goes down," check the boring layers first: addressing, then the physical link, before blaming the software running on top.</p>
+          <p><strong>What I took from it:</strong> when a whole host “goes down,” check the boring layers first: addressing, then the physical link, before blaming the software running on top.</p>
         </section>
         <section id="next" aria-labelledby="next-h">
-          <h2 id="next-h"><span class="step">05</span>What I'd do next</h2>
+          <h2 id="next-h"><span class="step">05</span>What I’d do next</h2>
           <!-- TODO(darshan): these are suggestions, not things you've said. Keep, edit or replace them. -->
           <ul>
             <li>Replace the USB Ethernet adapter with a more reliable NIC and segment lab traffic onto its own VLAN.</li>

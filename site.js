@@ -62,34 +62,20 @@ const CF_ANALYTICS_TOKEN = '';
   const stagger = (els, cap = 8) => els.forEach((el, i) => el.style.setProperty('--i', Math.min(i, cap)));
   $$('.diagram').forEach((fig) => { stagger($$('.wire', fig), 12); stagger($$('.sig', fig), 12); });
 
-  const REVEAL = [
-    '.band-head', '.proj', '.spec-wrap', '.history > div', '.resume', '.post-card', '.case-body > section',
-    '.fault', '.diagram', '.features li', '.next-case', '.prose > *', '.lost-card',
-  ].join(',');
-  const targets = $$(REVEAL);
-  if (!calm.matches && 'IntersectionObserver' in window) {
-    const groups = new Map();
-    targets.forEach((el) => {
-      el.dataset.reveal = '';
-      const sibs = groups.get(el.parentElement) || [];
-      sibs.push(el);
-      groups.set(el.parentElement, sibs);
-    });
-    groups.forEach((sibs) => sibs.forEach((el, i) => el.style.setProperty('--i', Math.min(i, 8))));
-    // Anything already on screen is shown as-is, so nothing above the fold ever flashes.
-    // Read every position first, then write, so this costs one layout instead of one per element.
+  // Case-study diagrams draw their wires once, when they first come on screen.
+  // The hidden state only exists after this runs (html.reveal-ready), so without script they just show.
+  const diagrams = $$('.diagram');
+  if (diagrams.length && !calm.matches && 'IntersectionObserver' in window) {
     const fold = innerHeight;
-    const onScreen = targets.map((el) => el.getBoundingClientRect().top < fold);
-    targets.forEach((el, i) => onScreen[i] && el.classList.add('in'));
+    const onScreen = diagrams.map((el) => el.getBoundingClientRect().top < fold);
+    diagrams.forEach((el, i) => onScreen[i] && el.classList.add('in'));
     const io = new IntersectionObserver((entries) => entries.forEach((en) => {
       if (!en.isIntersecting) return;
       en.target.classList.add('in');
       io.unobserve(en.target);
-    }), { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
-    targets.forEach((el) => !el.classList.contains('in') && io.observe(el));
+    }), { threshold: 0.2 });
+    diagrams.forEach((el) => !el.classList.contains('in') && io.observe(el));
     document.documentElement.classList.add('reveal-ready');
-  } else {
-    targets.forEach((el) => el.classList.add('in'));
   }
 
   // A post's table of contents follows the section you're reading.

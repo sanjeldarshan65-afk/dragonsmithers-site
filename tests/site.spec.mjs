@@ -143,19 +143,21 @@ test.describe('motion', () => {
     for (const path of PAGES) {
       await page.goto(path);
       await expect(page.locator('html')).not.toHaveClass(/reveal-ready/);
-      const hidden = await page.$$eval('[data-reveal]', (els) => els.filter((e) => getComputedStyle(e).opacity !== '1').length);
+      const hidden = await page.$$eval('.diagram .wire', (els) => els.filter((e) => getComputedStyle(e).opacity === '0').length);
       expect(hidden, path).toBe(0);
     }
     await ctx.close();
   });
 
-  test('every reveal target is fully visible after scrolling through', async ({ page }) => {
+  test('every section and card is visible on load, without scrolling', async ({ page }) => {
     await watch(page);
     for (const path of PAGES) {
       await page.goto(path);
-      await settle(page);
-      const stuck = await page.$$eval('[data-reveal]', (els) => els.filter((e) => !e.classList.contains('in') || getComputedStyle(e).opacity !== '1').map((e) => e.className || e.tagName));
-      expect(stuck, path).toEqual([]);
+      await page.waitForTimeout(300);
+      const hidden = await page.$$eval('main section, main article, .proj, .post-card, .resume, .fault, .diagram',
+        (els) => els.filter((e) => parseFloat(getComputedStyle(e).opacity) < 1).map((e) => e.className || e.tagName));
+      expect(hidden, path).toEqual([]);
+      expect(await page.$$eval('[data-reveal]', (els) => els.length), path).toBe(0);
     }
   });
 });
