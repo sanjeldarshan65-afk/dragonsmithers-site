@@ -43,8 +43,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: trufflesecurity/trufflehog@3bd2b5887eb0efb8fa18bfd1d296032924e4ffdc # v3.99.9
-        with:
-          version: v3.99.9
-          head: ${{ github.sha }}
-          extra_args: --no-verification --results=verified,unknown,unverified
+      - name: Scan history without contacting credential providers
+        run: |
+          docker run --rm --network none -v "$PWD:/repo:ro" \
+            ghcr.io/trufflesecurity/trufflehog@sha256:2ec535840f860aa27f11fee20222fb790326ecd66325c96bd49d02ec6af46eca \
+            git file:///repo --branch HEAD --no-verification --no-update \
+            --fail --github-actions --results=verified,unknown,unverified
