@@ -11,7 +11,7 @@
     "fonts": "python3 tools/subset-fonts.py"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.10.2",
+    "@axe-core/playwright": "^4.14.0",
     "@fontsource-variable/archivo": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@lhci/cli": "^0.16.1",
