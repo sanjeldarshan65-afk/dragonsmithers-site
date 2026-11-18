@@ -1,6 +1,6 @@
 /* Created only after the existing vault successfully decrypts. No password is stored. */
 (() => {
-  const origin = 'https://framextv.xyz';
+  const origin = 'https://framextv.cc';
   window.PrivateWatch = {
     create() {
       const section = document.createElement('section');
