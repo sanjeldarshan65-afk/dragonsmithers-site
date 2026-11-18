@@ -107,7 +107,7 @@ a Content-Security-Policy (only this site and Cloudflare analytics are allowed) 
 `X-Content-Type-Options`) need a proxy such as Cloudflare in front of Pages.
 
 ### Private Watch player
-After unlocking `/private/`, choose **Watch**. Enter a TMDB movie ID or select TV show and enter a season and episode. Playback is embedded from `https://framextv.xyz`; start time, speed, mute and closing playback are supported. `/watch/` redirects to the locked private page. No iframe is created or provider request made until unlocking and submitting a title. The UI uses the existing client-side unlock gate; player code is public static source, like the rest of this repository. Existing encrypted notes and password are unchanged.
+After unlocking `/private/`, choose **Watch**. Enter a TMDB movie ID or select TV show and enter a season and episode. Playback is embedded from `https://framextv.cc`; start time, speed, mute and closing playback are supported. `/watch/` redirects to the locked private page. No iframe is created or provider request made until unlocking and submitting a title. The UI uses the existing client-side unlock gate; player code is public static source, like the rest of this repository. Existing encrypted notes and password are unchanged.
 
 ### Security checks
 `.github/workflows/security.yml` runs Semgrep JavaScript error-level rules, a full-history TruffleHog secret scan with credential verification disabled, and an npm dependency audit on pull requests and main pushes. Dependabot proposes npm and Actions updates weekly. Scanner success does not establish that third-party streams are safe or that the site is vulnerability-free.

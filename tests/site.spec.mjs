@@ -245,7 +245,7 @@ test.describe('private page', () => {
 
   test('Watch stays locked, builds movie and episode URLs, and closes playback', async ({ page }) => {
     await page.route('**/private/data.json', r => r.fulfill({ json: payload }));
-    await page.route('https://framextv.xyz/**', r => r.fulfill({ body: '<html><body>Player fixture</body></html>', contentType: 'text/html' }));
+    await page.route('https://framextv.cc/**', r => r.fulfill({ body: '<html><body>Player fixture</body></html>', contentType: 'text/html' }));
     await page.goto('/watch/');
     await expect(page).toHaveURL(/private\/#watch/);
     await expect(page.locator('.watch-player')).toHaveCount(0);
@@ -255,7 +255,7 @@ test.describe('private page', () => {
     await page.fill('#watch-id', '550');
     await page.getByRole('button', { name: 'Load player' }).click();
     await expect(page.locator('.watch-player')).toHaveAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation');
-    await expect(page.locator('.watch-player')).toHaveAttribute('src', 'https://framextv.xyz/embed/550?autoplay=0&muted=0&start=0&speed=1&controls=1');
+    await expect(page.locator('.watch-player')).toHaveAttribute('src', 'https://framextv.cc/embed/550?autoplay=0&muted=0&start=0&speed=1&controls=1');
     const embeddedBody = page.frameLocator('.watch-player').locator('body');
     await expect(embeddedBody).toHaveText('Player fixture');
     expect(await embeddedBody.evaluate(() => window.open('about:blank') === null)).toBe(true);
