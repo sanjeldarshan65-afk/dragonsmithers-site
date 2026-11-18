@@ -105,3 +105,6 @@ a Content-Security-Policy (only this site and Cloudflare analytics are allowed) 
 `strict-origin-when-cross-origin` referrer policy. Headers that only work as real HTTP headers
 (`frame-ancestors`/`X-Frame-Options`, `Strict-Transport-Security` preload, `Permissions-Policy`,
 `X-Content-Type-Options`) need a proxy such as Cloudflare in front of Pages.
+
+### Private Watch player
+After unlocking `/private/`, choose **Watch**. Enter a TMDB movie ID or select TV show and enter a season and episode. Playback is embedded from `https://framextv.xyz`; start time, speed, mute and closing playback are supported. `/watch/` redirects to the locked private page. No iframe is created or provider request made until unlocking and submitting a title. The UI uses the existing client-side unlock gate; player code is public static source, like the rest of this repository. Existing encrypted notes and password are unchanged.

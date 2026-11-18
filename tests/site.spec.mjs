@@ -226,7 +226,7 @@ test.describe('private page', () => {
     await expect(page.locator('#vault')).toBeVisible();
     await expect(page.locator('#unlock')).toBeHidden();
     const tabs = page.getByRole('tab');
-    await expect(tabs).toHaveText(['Overview', 'Configuration', 'SDK']);
+    await expect(tabs).toHaveText(['Overview', 'Configuration', 'SDK', 'Watch']);
     await expect(page.getByRole('tabpanel')).toContainText('First tab');
     await expect(tabs.first()).toBeFocused();
     await page.keyboard.press('ArrowRight');
@@ -234,13 +234,38 @@ test.describe('private page', () => {
     await expect(page.getByRole('tabpanel')).toContainText('Second tab');
     await page.keyboard.press('ArrowLeft');
     await page.keyboard.press('ArrowLeft');
-    await expect(tabs.nth(2)).toHaveAttribute('aria-selected', 'true');
+    await expect(tabs.nth(3)).toHaveAttribute('aria-selected', 'true');
     await tabs.first().click();
     await expect(page.locator('.code-copy')).toHaveCount(1);
 
     const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
     expect(violations.filter((v) => ['serious', 'critical'].includes(v.impact)).map((v) => v.id)).toEqual([]);
     expect(errors).toEqual([]);
+  });
+
+  test('Watch stays locked, builds movie and episode URLs, and closes playback', async ({ page }) => {
+    await page.route('**/private/data.json', r => r.fulfill({ json: payload }));
+    await page.route('https://framextv.xyz/**', r => r.fulfill({ body: '<html><body>Player fixture</body></html>', contentType: 'text/html' }));
+    await page.goto('/watch/');
+    await expect(page).toHaveURL(/private\/#watch/);
+    await expect(page.locator('.watch-player')).toHaveCount(0);
+    await page.fill('#vault-password', PASSWORD);
+    await page.click('#unlock button');
+    await expect(page.getByRole('tab', { name: 'Watch', exact: true })).toHaveAttribute('aria-selected', 'true');
+    await page.fill('#watch-id', '550');
+    await page.getByRole('button', { name: 'Load player' }).click();
+    await expect(page.locator('.watch-player')).toHaveAttribute('src', 'https://framextv.xyz/embed/550?autoplay=0&muted=0&start=0&speed=1&controls=1');
+    await page.selectOption('#watch-type', 'tv');
+    await page.fill('#watch-id', '1399');
+    await page.fill('#watch-season', '2');
+    await page.fill('#watch-episode', '3');
+    await page.getByRole('button', { name: 'Load player' }).click();
+    await expect(page.locator('.watch-player')).toHaveAttribute('src', /embed\/1399\/2\/3\?/);
+    await page.getByRole('button', { name: 'Close player' }).click();
+    await expect(page.locator('.watch-player')).toBeHidden();
+    await expect(page.locator('.watch-player')).not.toHaveAttribute('src');
+    await page.reload();
+    await expect(page.locator('.watch-player')).toHaveCount(0);
   });
 
   test('says so when no content has been locked yet', async ({ page }) => {
