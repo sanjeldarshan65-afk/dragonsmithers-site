@@ -27,6 +27,7 @@
     const tpl = document.createElement('template');
     tpl.innerHTML = html;
     const sections = [...tpl.content.querySelectorAll('section[data-tab]')];
+    sections.push(window.PrivateWatch.create());
     const tablist = Object.assign(document.createElement('div'), { className: 'vault-tabs' });
     tablist.setAttribute('role', 'tablist');
     tablist.setAttribute('aria-label', 'Private sections');
@@ -81,6 +82,7 @@
     vault.replaceChildren(tablist, ...panels);
     let start = 0;
     try { start = Math.min(Number(sessionStorage.getItem('vault-tab')) || 0, tabs.length - 1); } catch { /* storage blocked */ }
+    if (location.hash === '#watch') start = panels.length - 1;
     select(start);
   }
 
