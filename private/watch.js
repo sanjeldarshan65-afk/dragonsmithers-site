@@ -22,10 +22,13 @@
           <label><input name="muted" type="checkbox"> Start muted</label>
           <div class="watch-actions"><button class="btn solid" type="submit">Load player</button><button class="btn" type="button" data-stop>Close player</button></div>
         </form>
+        <p class="watch-direct" hidden><a class="btn" target="_blank" rel="noopener noreferrer">Open in new tab</a></p>
         <p class="watch-status" role="status" aria-live="polite">Choose a title to begin. Playback is provided by FrameXTV.</p>
         <iframe class="watch-player" title="FrameXTV video player" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="no-referrer" hidden></iframe>`;
       const form = section.querySelector('form');
       const player = section.querySelector('iframe');
+      const direct = section.querySelector('.watch-direct');
+      const directLink = direct.querySelector('a');
       const status = section.querySelector('.watch-status');
       form.elements.kind.addEventListener('change', () => {
         const episodes = section.querySelector('fieldset');
@@ -42,11 +45,15 @@
         url.search = new URLSearchParams({ autoplay: '0', muted: fields.muted.checked ? '1' : '0', start: fields.start.value, speed: fields.speed.value, controls: '1' });
         player.src = url.href;
         player.hidden = false;
-        status.textContent = 'Player opened. Press play below. If playback is unavailable, try another server inside the player.';
+        directLink.href = url.href;
+        direct.hidden = false;
+        status.textContent = 'If the embedded player is blocked, use Open in new tab.';
       });
       section.querySelector('[data-stop]').addEventListener('click', () => {
         player.removeAttribute('src');
         player.hidden = true;
+        directLink.removeAttribute('href');
+        direct.hidden = true;
         status.textContent = 'Player closed.';
       });
       return section;
