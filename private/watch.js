@@ -24,7 +24,7 @@
         </form>
         <p class="watch-direct" hidden><a class="btn" target="_blank" rel="noopener noreferrer">Open in new tab</a></p>
         <p class="watch-status" role="status" aria-live="polite">Choose a title to begin. Playback is provided by FrameXTV.</p>
-        <iframe class="watch-player" title="FrameXTV video player" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="no-referrer" hidden></iframe>`;
+        <iframe class="watch-player" title="FrameXTV video player" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation" referrerpolicy="no-referrer" hidden></iframe>`;
       const form = section.querySelector('form');
       const player = section.querySelector('iframe');
       const direct = section.querySelector('.watch-direct');

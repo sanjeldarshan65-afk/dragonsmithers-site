@@ -92,7 +92,7 @@ const CF_ANALYTICS_TOKEN = '';
   }
 
   /* Privacy-friendly analytics, only when a token is configured */
-  if (CF_ANALYTICS_TOKEN) {
+  if (CF_ANALYTICS_TOKEN && !location.pathname.startsWith('/private/')) {
     const s = document.createElement('script');
     s.defer = true;
     s.src = 'https://static.cloudflareinsights.com/beacon.min.js';

@@ -81,7 +81,7 @@
 
     vault.replaceChildren(tablist, ...panels);
     let start = 0;
-    try { start = Math.min(Number(sessionStorage.getItem('vault-tab')) || 0, tabs.length - 1); } catch { /* storage blocked */ }
+    try { const saved = Number(sessionStorage.getItem('vault-tab')); start = Number.isInteger(saved) && saved >= 0 && saved < tabs.length ? saved : 0; } catch { /* storage blocked */ }
     if (location.hash === '#watch') start = panels.length - 1;
     select(start);
   }
